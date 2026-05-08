@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Services | Muhammad Faiq Imran</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="index.html"><span class="brand-mark">FI</span><span>Muhammad Faiq Imran</span></a>
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="experience.html">Experience</a>
+        <a href="services.html" class="active">Services</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="page-hero compact">
+        <p class="eyebrow">Development Services</p>
+        <h1>Web development, Python utilities, and software support.</h1>
+        <p>
+          I can help with responsive websites, frontend features, JavaScript projects,
+          Python tools, and improvements to existing code.
+        </p>
+      </section>
+
+      <section class="section services-grid">
+        <article class="service-card">
+          <h2>Portfolio & Personal Websites</h2>
+          <p>Responsive portfolio websites with structured sections, dark UI styling, and contact forms.</p>
+        </article>
+        <article class="service-card">
+          <h2>Frontend Development</h2>
+          <p>HTML, CSS, and JavaScript interfaces for calculators, timers, dashboards, and landing pages.</p>
+        </article>
+        <article class="service-card">
+          <h2>Python Utilities</h2>
+          <p>Small Python applications, automation scripts, image tools, and text-to-speech utilities.</p>
+        </article>
+        <article class="service-card">
+          <h2>Bug Fixing & Improvements</h2>
+          <p>Help with layout fixes, JavaScript bugs, responsive design issues, and code cleanup.</p>
+        </article>
+      </section>
+
+      <section class="section contact-section">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Send a service request</h2>
+          <p class="rich-copy">
+            Fill in the form and the backend will send the request to my email once SMTP is configured.
+          </p>
+          <div class="contact-details">
+            <p><strong>Email:</strong> <a href="mailto:faiqimran.fi@gmail.com">faiqimran.fi@gmail.com</a></p>
+            <p><strong>Phone / WhatsApp:</strong> <a href="tel:+971562861990">+971-56-286-1990</a></p>
+          </div>
+        </div>
+        <form class="contact-form" id="serviceForm">
+          <div class="form-row">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required />
+          </div>
+          <div class="form-row">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required />
+          </div>
+          <div class="form-row">
+            <label for="phone">Phone</label>
+            <input id="phone" name="phone" type="tel" placeholder="+971 50 000 0000" />
+          </div>
+          <div class="form-row">
+            <label for="service">Service</label>
+            <select id="service" name="service" required>
+              <option value="">Select a service</option>
+              <option>Portfolio Website</option>
+              <option>Personal Website</option>
+              <option>Frontend Development</option>
+              <option>Python Utility</option>
+              <option>Bug Fixing</option>
+              <option>JavaScript Project</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="budget">Budget</label>
+            <select id="budget" name="budget" required>
+              <option value="">Select a budget</option>
+              <option>Under $250</option>
+              <option>$250 - $500</option>
+              <option>$500 - $1,000</option>
+              <option>$1,000+</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="timeline">Timeline</label>
+            <input id="timeline" name="timeline" type="text" placeholder="Example: 2 weeks" />
+          </div>
+          <div class="form-row full">
+            <label for="message">Project details</label>
+            <textarea id="message" name="message" rows="6" placeholder="Tell me what you need built..." required></textarea>
+          </div>
+          <button class="button primary" type="submit">Send Request</button>
+          <p class="form-status" id="formStatus" role="status"></p>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>© <span id="year"></span> Muhammad Faiq Imran.</p>
+    </footer>
+  </body>
+</html>
