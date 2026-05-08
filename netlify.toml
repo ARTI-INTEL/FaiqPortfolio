@@ -1,11 +1,11 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
-  ignore = "false"  
+
+[build.environment]
+  SECRETS_SCAN_OMIT_KEYS = "CONTACT_TO"
 
 [[redirects]]
   from = "/api/contact"
   to = "/.netlify/functions/contact"
   status = 200
-
-SECRETS_SCAN_ENABLED = "false"
