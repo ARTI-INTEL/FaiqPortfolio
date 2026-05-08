@@ -1,17 +1,16 @@
-const path = require("path");
-const express = require("express");
-const cors = require("cors");
 const nodemailer = require("nodemailer");
-require("dotenv").config();
-
-const app = express();
-const PORT = process.env.PORT || 3000;
-
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "..", "public")));
 
 const requiredFields = ["name", "email", "service", "budget", "message"];
+
+function json(statusCode, body) {
+  return {
+    statusCode,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  };
+}
 
 function createTransporter() {
   const secure = String(process.env.SMTP_SECURE).toLowerCase() === "true";
@@ -36,12 +35,31 @@ function hasEmailConfig() {
   );
 }
 
-app.post("/api/contact", async (req, res) => {
-  const payload = req.body || {};
+exports.handler = async (event) => {
+  if (event.httpMethod === "OPTIONS") {
+    return json(204, {});
+  }
+
+  if (event.httpMethod !== "POST") {
+    return json(405, {
+      message: "Method not allowed."
+    });
+  }
+
+  let payload = {};
+
+  try {
+    payload = JSON.parse(event.body || "{}");
+  } catch (_error) {
+    return json(400, {
+      message: "Please send valid JSON."
+    });
+  }
+
   const missingFields = requiredFields.filter((field) => !String(payload[field] || "").trim());
 
   if (missingFields.length > 0) {
-    return res.status(400).json({
+    return json(400, {
       message: "Please complete every required field.",
       missingFields
     });
@@ -49,7 +67,7 @@ app.post("/api/contact", async (req, res) => {
 
   if (!hasEmailConfig()) {
     console.log("Service request received without email config:", payload);
-    return res.status(202).json({
+    return json(202, {
       message:
         "Request received. Email delivery is not configured yet, so the details were logged on the server."
     });
@@ -78,21 +96,14 @@ app.post("/api/contact", async (req, res) => {
       ].join("\n")
     });
 
-    return res.json({
+    return json(200, {
       message: "Thanks, your request was sent successfully."
     });
   } catch (error) {
     console.error("Email delivery failed:", error);
-    return res.status(502).json({
+    return json(502, {
       message: "The request was received, but email delivery failed. Please check SMTP settings."
     });
   }
-});
+};
 
-app.get("*", (_req, res) => {
-  res.sendFile(path.join(__dirname, "..", "public", "index.html"));
-});
-
-app.listen(PORT, () => {
-  console.log(`Portfolio server running at http://localhost:${PORT}`);
-});
