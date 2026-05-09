@@ -451,8 +451,84 @@ h3 {
     repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.16) 0 12px, transparent 12px 24px);
 }
 
+.visual-six {
+  background:
+    radial-gradient(circle at 50% 42%, rgba(238, 246, 248, 0.92) 0 8%, transparent 9%),
+    conic-gradient(from 20deg, rgba(50, 214, 197, 0.74), rgba(255, 159, 90, 0.64), rgba(77, 166, 255, 0.58), rgba(50, 214, 197, 0.74));
+}
+
+.visual-seven {
+  background:
+    repeating-conic-gradient(from 0deg, rgba(255, 159, 90, 0.82) 0 8deg, rgba(17, 25, 35, 0.95) 8deg 16deg),
+    radial-gradient(circle at 50% 50%, rgba(50, 214, 197, 0.28), transparent 34%);
+}
+
+.visual-eight {
+  background:
+    linear-gradient(135deg, rgba(77, 166, 255, 0.7), rgba(17, 25, 35, 0.92)),
+    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0 10px, transparent 10px 24px);
+}
+
+.visual-nine {
+  background:
+    radial-gradient(circle at 22% 50%, rgba(50, 214, 197, 0.9) 0 12%, transparent 13%),
+    radial-gradient(circle at 78% 50%, rgba(255, 159, 90, 0.82) 0 12%, transparent 13%),
+    linear-gradient(135deg, rgba(17, 25, 35, 0.96), rgba(43, 59, 82, 0.9));
+}
+
+.visual-ten {
+  background:
+    linear-gradient(135deg, rgba(238, 246, 248, 0.9), rgba(154, 170, 179, 0.54)),
+    repeating-linear-gradient(90deg, #111923 0 12px, transparent 12px 24px),
+    repeating-linear-gradient(0deg, #111923 0 12px, transparent 12px 24px);
+}
+
+.visual-eleven {
+  background:
+    radial-gradient(circle at 24% 34%, rgba(255, 211, 110, 0.95) 0 13%, transparent 14%),
+    linear-gradient(180deg, rgba(77, 166, 255, 0.74), rgba(50, 214, 197, 0.5) 55%, rgba(17, 25, 35, 0.96));
+}
+
+.visual-twelve {
+  background:
+    linear-gradient(135deg, rgba(50, 214, 197, 0.34), rgba(255, 159, 90, 0.46)),
+    repeating-linear-gradient(90deg, rgba(238, 246, 248, 0.18) 0 1px, transparent 1px 54px),
+    repeating-linear-gradient(0deg, rgba(238, 246, 248, 0.16) 0 1px, transparent 1px 54px);
+}
+
 .project-body {
   padding: 22px;
+}
+
+.project-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.project-actions a,
+.project-actions span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--ink);
+  background: rgba(238, 246, 248, 0.06);
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.project-actions a:hover {
+  border-color: rgba(50, 214, 197, 0.5);
+  color: var(--primary-dark);
+  background: rgba(50, 214, 197, 0.1);
+}
+
+.project-actions span {
+  color: var(--muted);
 }
 
 .role-meta {
