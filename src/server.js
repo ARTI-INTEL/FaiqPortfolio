@@ -61,22 +61,93 @@ app.post("/api/contact", async (req, res) => {
     const safeTimeline = payload.timeline ? String(payload.timeline).trim() : "Flexible";
 
     await transporter.sendMail({
-      from: `"Portfolio Services" <${process.env.SMTP_USER}>`,
-      to: process.env.CONTACT_TO,
-      replyTo: payload.email,
-      subject: `New ${payload.service} request from ${payload.name}`,
-      text: [
-        `Name: ${payload.name}`,
-        `Email: ${payload.email}`,
-        `Phone: ${safePhone}`,
-        `Service: ${payload.service}`,
-        `Budget: ${payload.budget}`,
-        `Timeline: ${safeTimeline}`,
-        "",
-        "Project Details:",
-        payload.message
-      ].join("\n")
-    });
+  from: `"Portfolio Services" <${process.env.SMTP_USER}>`,
+  to: process.env.CONTACT_TO,
+  replyTo: payload.email,
+  subject: `New ${payload.service} request from ${payload.name}`,
+
+  html: `
+    <div style="font-family: Arial, sans-serif; color: #111; line-height: 1.6;">
+      
+      <h2 style="margin-bottom: 10px;">New Service Request</h2>
+
+      <h3 style="margin-bottom: 8px;">Client Details</h3>
+
+      <table 
+        cellpadding="10" 
+        cellspacing="0" 
+        border="1"
+        style="border-collapse: collapse; width: 100%; margin-bottom: 25px;"
+      >
+        <tr style="background-color: #f5f5f5;">
+          <th align="left">Name</th>
+          <th align="left">Email</th>
+          <th align="left">Phone</th>
+        </tr>
+
+        <tr>
+          <td>${payload.name}</td>
+          <td>${payload.email}</td>
+          <td>${safePhone}</td>
+        </tr>
+      </table>
+
+      <h3 style="margin-bottom: 8px;">Project Details</h3>
+
+      <table 
+        cellpadding="10" 
+        cellspacing="0" 
+        border="1"
+        style="border-collapse: collapse; width: 100%; margin-bottom: 25px;"
+      >
+        <tr style="background-color: #f5f5f5;">
+          <th align="left">Service</th>
+          <th align="left">Budget</th>
+          <th align="left">Timeline</th>
+        </tr>
+
+        <tr>
+          <td>${payload.service}</td>
+          <td>${payload.budget}</td>
+          <td>${safeTimeline}</td>
+        </tr>
+      </table>
+
+      <h3 style="margin-bottom: 8px;">Project Message</h3>
+
+      <div
+        style="
+          padding: 15px;
+          background-color: #f9f9f9;
+          border: 1px solid #ddd;
+          border-radius: 6px;
+          white-space: pre-wrap;
+        "
+      >
+        ${payload.message}
+      </div>
+
+    </div>
+  `,
+
+  text: `
+    Client Details
+    ---------------
+    Name: ${payload.name}
+    Email: ${payload.email}
+    Phone: ${safePhone}
+
+    Project Details
+    ----------------
+    Service: ${payload.service}
+    Budget: ${payload.budget}
+    Timeline: ${safeTimeline}
+
+    Project Message
+    ----------------
+    ${payload.message}
+  `
+});
 
     return res.json({
       message: "Thanks, your request was sent successfully."
