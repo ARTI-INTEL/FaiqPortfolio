@@ -151,7 +151,7 @@ a {
 
 .hero-content {
   max-width: 880px;
-  align-self: center;
+  align-self: start;
 }
 
 .eyebrow {
@@ -268,12 +268,52 @@ h3 {
   gap: 14px;
 }
 
-.hero-panel div {
+.hero-portrait,
+.hero-panel > div {
   padding: 20px;
   background: rgba(17, 25, 35, 0.78);
   border: 1px solid var(--line);
   border-radius: 8px;
   box-shadow: var(--shadow);
+}
+
+.hero-portrait {
+  position: relative;
+  overflow: hidden;
+  margin: 0;
+  padding: 12px;
+}
+
+.hero-portrait::after {
+  content: "";
+  position: absolute;
+  inset: 12px;
+  pointer-events: none;
+}
+
+.hero-portrait img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  border-radius: 6px;
+  background:
+    linear-gradient(135deg, rgba(50, 214, 197, 0.18), rgba(255, 159, 90, 0.14)),
+    var(--surface-raised);
+}
+
+.hero-portrait figcaption {
+  display: grid;
+  gap: 2px;
+  padding: 14px 4px 2px;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.portrait-name {
+  color: var(--ink);
+  font-size: 1.02rem;
+  font-weight: 900;
 }
 
 .stat-value,
@@ -688,6 +728,18 @@ textarea:focus {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
+  .hero-portrait {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: minmax(140px, 220px) 1fr;
+    align-items: end;
+    gap: 16px;
+  }
+
+  .hero-portrait figcaption {
+    padding: 0 4px 4px;
+  }
+
   .card-grid,
   .skills-layout,
   .services-grid,
@@ -709,6 +761,10 @@ textarea:focus {
 
   .hero-panel,
   .contact-form {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-portrait {
     grid-template-columns: 1fr;
   }
 
