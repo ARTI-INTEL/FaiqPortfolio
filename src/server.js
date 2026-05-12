@@ -61,7 +61,7 @@ app.post("/api/contact", async (req, res) => {
     const safeTimeline = payload.timeline ? String(payload.timeline).trim() : "Flexible";
 
     await transporter.sendMail({
-  from: `"Portfolio Services" <${process.env.SMTP_USER}>`,
+  from: `"Faiq's Development Services" <${process.env.SMTP_USER}>`,
   to: process.env.CONTACT_TO,
   replyTo: payload.email,
   subject: `New ${payload.service} request from ${payload.name}`,
