@@ -389,6 +389,26 @@ h3 {
   padding: 24px;
 }
 
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  margin-top: 16px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--primary-dark);
+  background: rgba(50, 214, 197, 0.08);
+  font-size: 0.88rem;
+  font-weight: 850;
+}
+
+.card-link:hover {
+  border-color: rgba(50, 214, 197, 0.5);
+  background: rgba(50, 214, 197, 0.14);
+}
+
 .timeline-date {
   display: inline-block;
   margin-bottom: 10px;
