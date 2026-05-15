@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --bg: #080d12;
   --surface: #111923;
   --surface-raised: #162231;
@@ -489,85 +489,40 @@ h3 {
 }
 
 .project-visual {
+  position: relative;
+  display: grid;
   min-height: 190px;
+  aspect-ratio: 16 / 9;
+  place-items: center;
+  overflow: hidden;
+  background:
+    linear-gradient(135deg, rgba(50, 214, 197, 0.12), rgba(255, 159, 90, 0.1)),
+    rgba(8, 13, 18, 0.72);
   border-bottom: 1px solid var(--line);
 }
 
-.visual-one {
-  background:
-    linear-gradient(135deg, rgba(50, 214, 197, 0.86), rgba(255, 159, 90, 0.72)),
-    repeating-linear-gradient(90deg, transparent 0 22px, rgba(255, 255, 255, 0.18) 22px 24px);
+.project-visual::after {
+  content: "";
+  position: absolute;
+  inset: 18px;
+  border: 1px dashed rgba(125, 247, 232, 0.28);
+  border-radius: 8px;
+  pointer-events: none;
 }
 
-.visual-two {
-  background:
-    radial-gradient(circle at 25% 30%, #ffd36e 0 14%, transparent 15%),
-    linear-gradient(135deg, #18435f, #24364d);
+.project-image {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.visual-three {
-  background:
-    linear-gradient(90deg, rgba(8, 13, 18, 0.9), rgba(50, 214, 197, 0.54)),
-    repeating-linear-gradient(0deg, transparent 0 28px, rgba(255, 255, 255, 0.22) 28px 30px);
+.project-image:not([src]),
+.project-image[src=""] {
+  display: none;
 }
-
-.visual-four {
-  background:
-    linear-gradient(135deg, rgba(255, 159, 90, 0.7), rgba(17, 25, 35, 0.92)),
-    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.14) 0 14px, transparent 14px 28px);
-}
-
-.visual-five {
-  background:
-    linear-gradient(135deg, #143329, #32d6c5),
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.16) 0 12px, transparent 12px 24px);
-}
-
-.visual-six {
-  background:
-    radial-gradient(circle at 50% 42%, rgba(238, 246, 248, 0.92) 0 8%, transparent 9%),
-    conic-gradient(from 20deg, rgba(50, 214, 197, 0.74), rgba(255, 159, 90, 0.64), rgba(77, 166, 255, 0.58), rgba(50, 214, 197, 0.74));
-}
-
-.visual-seven {
-  background:
-    repeating-conic-gradient(from 0deg, rgba(255, 159, 90, 0.82) 0 8deg, rgba(17, 25, 35, 0.95) 8deg 16deg),
-    radial-gradient(circle at 50% 50%, rgba(50, 214, 197, 0.28), transparent 34%);
-}
-
-.visual-eight {
-  background:
-    linear-gradient(135deg, rgba(77, 166, 255, 0.7), rgba(17, 25, 35, 0.92)),
-    repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.16) 0 10px, transparent 10px 24px);
-}
-
-.visual-nine {
-  background:
-    radial-gradient(circle at 22% 50%, rgba(50, 214, 197, 0.9) 0 12%, transparent 13%),
-    radial-gradient(circle at 78% 50%, rgba(255, 159, 90, 0.82) 0 12%, transparent 13%),
-    linear-gradient(135deg, rgba(17, 25, 35, 0.96), rgba(43, 59, 82, 0.9));
-}
-
-.visual-ten {
-  background:
-    linear-gradient(135deg, rgba(238, 246, 248, 0.9), rgba(154, 170, 179, 0.54)),
-    repeating-linear-gradient(90deg, #111923 0 12px, transparent 12px 24px),
-    repeating-linear-gradient(0deg, #111923 0 12px, transparent 12px 24px);
-}
-
-.visual-eleven {
-  background:
-    radial-gradient(circle at 24% 34%, rgba(255, 211, 110, 0.95) 0 13%, transparent 14%),
-    linear-gradient(180deg, rgba(77, 166, 255, 0.74), rgba(50, 214, 197, 0.5) 55%, rgba(17, 25, 35, 0.96));
-}
-
-.visual-twelve {
-  background:
-    linear-gradient(135deg, rgba(50, 214, 197, 0.34), rgba(255, 159, 90, 0.46)),
-    repeating-linear-gradient(90deg, rgba(238, 246, 248, 0.18) 0 1px, transparent 1px 54px),
-    repeating-linear-gradient(0deg, rgba(238, 246, 248, 0.16) 0 1px, transparent 1px 54px);
-}
-
 .project-body {
   padding: 22px;
 }
@@ -840,3 +795,4 @@ textarea:focus {
     display: none;
   }
 }
+
