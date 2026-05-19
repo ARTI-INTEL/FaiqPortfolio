@@ -65,6 +65,19 @@ a {
   font-weight: 800;
 }
 
+.brand-logo {
+  display: block;
+  width: clamp(150px, 18vw, 230px);
+  height: 46px;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.footer-brand .brand-logo {
+  width: min(260px, 100%);
+  height: 54px;
+}
+
 .brand-mark {
   display: block;
   width: 38px;
@@ -796,3 +809,9 @@ textarea:focus {
   }
 }
 
+.hero-brand-mark {
+  display: block;
+  width: 20%;
+  height: auto;
+  border-radius: 8px;
+}
