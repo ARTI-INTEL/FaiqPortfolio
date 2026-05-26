@@ -3,6 +3,7 @@ const navToggle = document.querySelector(".nav-toggle");
 const siteNav = document.querySelector(".site-nav");
 const serviceForm = document.querySelector("#serviceForm");
 const formStatus = document.querySelector("#formStatus");
+const githubActivity = document.querySelector("#githubActivity");
 
 if (yearElement) {
   yearElement.textContent = new Date().getFullYear();
@@ -191,6 +192,170 @@ function initHeroCanvas() {
 }
 
 initHeroCanvas();
+
+function formatDateKey(date) {
+  return date.toISOString().slice(0, 10);
+}
+
+function getContributionLevel(count) {
+  if (count <= 0) return 0;
+  if (count === 1) return 1;
+  if (count <= 3) return 2;
+  if (count <= 6) return 3;
+  return 4;
+}
+
+function renderContributionGraph(events = []) {
+  const graph = githubActivity.querySelector("[data-github-graph]");
+  const months = githubActivity.querySelector("[data-github-months]");
+  const summary = githubActivity.querySelector("[data-github-graph-summary]");
+
+  if (!graph || !months) return;
+
+  const eventCounts = new Map();
+
+  events.forEach((event) => {
+    if (!event.created_at) return;
+    const key = formatDateKey(new Date(event.created_at));
+    eventCounts.set(key, (eventCounts.get(key) || 0) + 1);
+  });
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const startDate = new Date(today);
+  startDate.setDate(today.getDate() - 51 * 7 - today.getDay());
+
+  graph.innerHTML = "";
+  months.innerHTML = "";
+
+  let activeDays = 0;
+  let totalEvents = 0;
+  let previousMonth = "";
+
+  for (let week = 0; week < 52; week += 1) {
+    const weekStart = new Date(startDate);
+    weekStart.setDate(startDate.getDate() + week * 7);
+    const monthLabel = weekStart.toLocaleDateString(undefined, { month: "short" });
+
+    const month = document.createElement("span");
+    month.textContent = monthLabel !== previousMonth ? monthLabel : "";
+    months.appendChild(month);
+    previousMonth = monthLabel;
+
+    for (let day = 0; day < 7; day += 1) {
+      const date = new Date(weekStart);
+      date.setDate(weekStart.getDate() + day);
+
+      const key = formatDateKey(date);
+      const count = eventCounts.get(key) || 0;
+      const cell = document.createElement("span");
+
+      if (date > today) {
+        cell.dataset.level = "0";
+        cell.setAttribute("aria-hidden", "true");
+      } else {
+        const level = getContributionLevel(count);
+        cell.dataset.level = String(level);
+        cell.title = `${count} public event${count === 1 ? "" : "s"} on ${date.toLocaleDateString()}`;
+        cell.setAttribute("aria-label", cell.title);
+
+        if (count > 0) {
+          activeDays += 1;
+          totalEvents += count;
+        }
+      }
+
+      graph.appendChild(cell);
+    }
+  }
+
+  if (summary) {
+    summary.textContent = `${totalEvents} public GitHub events across ${activeDays} active days in the recent public activity feed.`;
+  }
+}
+
+async function initGithubActivity() {
+  if (!githubActivity) return;
+
+  const username = githubActivity.dataset.githubUser;
+  const repoList = githubActivity.querySelector("[data-github-repos]");
+  const reposStat = githubActivity.querySelector('[data-github-stat="repos"]');
+  const followersStat = githubActivity.querySelector('[data-github-stat="followers"]');
+  const followingStat = githubActivity.querySelector('[data-github-stat="following"]');
+  const graphSummary = githubActivity.querySelector("[data-github-graph-summary]");
+
+  try {
+    const [profileResponse, reposResponse, eventsResponse] = await Promise.all([
+      fetch(`https://api.github.com/users/${username}`),
+      fetch(`https://api.github.com/users/${username}/repos?sort=updated&per_page=4`),
+      fetch(`https://api.github.com/users/${username}/events/public?per_page=100`)
+    ]);
+
+    if (!profileResponse.ok || !reposResponse.ok) {
+      throw new Error("GitHub activity is temporarily unavailable.");
+    }
+
+    const profile = await profileResponse.json();
+    const repos = await reposResponse.json();
+    const events = eventsResponse.ok ? await eventsResponse.json() : [];
+
+    if (reposStat) reposStat.textContent = profile.public_repos ?? "--";
+    if (followersStat) followersStat.textContent = profile.followers ?? "--";
+    if (followingStat) followingStat.textContent = profile.following ?? "--";
+    renderContributionGraph(events);
+
+    if (repoList) {
+      repoList.innerHTML = "";
+
+      repos
+        .filter((repo) => !repo.fork)
+        .slice(0, 3)
+        .forEach((repo) => {
+          const repoLink = document.createElement("a");
+          repoLink.className = "github-repo";
+          repoLink.href = repo.html_url;
+          repoLink.target = "_blank";
+          repoLink.rel = "noreferrer";
+
+          const updatedDate = new Date(repo.updated_at);
+          const updatedLabel = Number.isNaN(updatedDate.getTime())
+            ? "Recently updated"
+            : `Updated ${updatedDate.toLocaleDateString(undefined, {
+                month: "short",
+                day: "numeric",
+                year: "numeric"
+              })}`;
+
+          repoLink.innerHTML = `
+            <span class="github-repo-name">${repo.name}</span>
+            <span class="github-repo-meta">${repo.language || "Code"} &bull; ${updatedLabel}</span>
+          `;
+
+          repoList.appendChild(repoLink);
+        });
+
+      if (!repoList.children.length) {
+        repoList.innerHTML = "<p>No public repositories found yet.</p>";
+      }
+    }
+  } catch (error) {
+    if (graphSummary) {
+      graphSummary.textContent = error.message;
+    }
+
+    renderContributionGraph([]);
+
+    if (repoList) {
+      repoList.innerHTML = `
+        <p>${error.message}</p>
+        <a class="card-link" href="https://github.com/${username}" target="_blank" rel="noreferrer">Open GitHub Directly</a>
+      `;
+    }
+  }
+}
+
+initGithubActivity();
 
 if (serviceForm && formStatus) {
   serviceForm.addEventListener("submit", async (event) => {
