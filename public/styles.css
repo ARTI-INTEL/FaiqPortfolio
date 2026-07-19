@@ -422,6 +422,18 @@ h3 {
   background: rgba(50, 214, 197, 0.14);
 }
 
+.cert-id {
+  margin: 10px 0 0;
+  padding: 6px 10px;
+  color: var(--muted);
+  background: rgba(238, 246, 248, 0.055);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-size: 0.82rem;
+  font-family: "SF Mono", "Fira Code", "Cascadia Code", monospace;
+  letter-spacing: -0.02em;
+}
+
 .timeline-date {
   display: inline-block;
   margin-bottom: 10px;
